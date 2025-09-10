@@ -1,0 +1,15 @@
+[project]
+name = "synapsis-challange"
+version = "0.1.0"
+description = "Add your description here"
+readme = "../README.md"
+requires-python = ">=3.13"
+dependencies = [
+    "fastapi>=0.116.1",
+    "langchain>=0.3.27",
+    "langchain-openai>=0.3.32",
+    "langchain-postgres>=0.0.15",
+    "psycopg-binary>=3.2.10",
+    "pydantic-settings>=2.10.1",
+    "uvicorn>=0.35.0",
+]
