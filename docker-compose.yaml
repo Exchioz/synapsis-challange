@@ -1,0 +1,60 @@
+services:
+  ollama:
+    image: ollama/ollama:latest
+    container_name: ollama
+    ports:
+      - "11434:11434"
+    volumes:
+      - ./ollama_data:/root/.ollama
+      - ./start-ollama.sh:/start-ollama.sh
+    networks:
+      - chat_network
+    entrypoint: ["/bin/bash", "-c", "ollama serve & sleep 5 && ollama pull ${OPENAI_MODEL:-qwen3:1.7b} && wait $(jobs -p)"]
+
+  postgres:
+    image: postgres:latest
+    container_name: chat_postgres
+    environment:
+      POSTGRES_USER: ${PGUSER:-postgres}
+      POSTGRES_PASSWORD: ${PGPASSWORD:-mypassword}
+      POSTGRES_DB: ${PGDB:-chat_history}
+    ports:
+      - "5432:5432"
+    networks:
+      - chat_network
+    volumes:
+      - ./postgres_data:/var/lib/postgresql/data
+
+  chat:
+    build: .
+    container_name: llm_chat
+    restart: always
+    ports:
+      - "8000:8000"
+    environment:
+      PGHOST: postgres
+      PGPORT: 5432
+      PGUSER: ${PGUSER:-postgres}
+      PGPASSWORD: ${PGPASSWORD:-mypassword}
+      PGDB: ${PGDB:-chat_history}
+      OPENAI_BASE_URL: ${OPENAI_BASE_URL:-}
+      OPENAI_API_KEY: ${OPENAI_API_KEY:-}
+      OPENAI_MODEL: ${OPENAI_MODEL:-}
+    depends_on:
+      - ollama
+      - postgres
+    networks:
+      - chat_network
+
+  # adminer:
+  #   image: adminer:latest
+  #   container_name: adminer
+  #   restart: always
+  #   ports:
+  #     - "8080:8080"
+  #   depends_on:
+  #     - postgres
+
+networks:
+  chat_network:
+    driver: bridge
