@@ -37,7 +37,7 @@ Chat system powered by LLM, integrated with Postgres database and Ollama model.
 	```
 
 ### Environment Configuration
-Create a `.env` file in the root directory with the following variables:
+Copy `.env.example` to `.env` in the root directory, then adjust the variables as needed:
 ```sh
 PGUSER=postgres
 PGPASSWORD=mypassword
