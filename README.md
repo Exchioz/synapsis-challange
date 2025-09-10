@@ -101,21 +101,130 @@ While the Ollama Qwen model (`qwen3:1.7b`) can be used for general chat, it is n
 - `get_warranty_policy()`: Show warranty policy.
 
 ## Example Request & Response
-### Request
+
+### 1. Get Order Status
+Request:
 ```http
 POST /chat
 Content-Type: application/json
-
 {
   "session_id": "a1b2c3d4-e5f6-7890-abcd-1234567890ef",
-  "user_input": "What is the status of my order order_1?"
+  "user_input": "What is the status of my order 'order_1'?"
 }
 ```
-
-### Response
+Response:
 ```json
 {
   "session_id": "a1b2c3d4-e5f6-7890-abcd-1234567890ef",
-  "ai_response": "Your order order_1 status is: Shipped."
+  "ai_response": "Your order 'order_1' status is: Shipped."
+}
+```
+
+### 2. Get Product Information
+Request:
+```http
+POST /chat
+Content-Type: application/json
+{
+  "session_id": "a1b2c3d4-e5f6-7890-abcd-1234567890ef",
+  "user_input": "Tell me about product '123'."
+}
+```
+Response:
+```json
+{
+  "session_id": "a1b2c3d4-e5f6-7890-abcd-1234567890ef",
+  "ai_response": "Product '123' is a high-quality widget."
+}
+```
+
+### 3. List All Products
+Request:
+```http
+POST /chat
+Content-Type: application/json
+{
+  "session_id": "a1b2c3d4-e5f6-7890-abcd-1234567890ef",
+  "user_input": "List all available products."
+}
+```
+Response:
+```json
+{
+  "session_id": "a1b2c3d4-e5f6-7890-abcd-1234567890ef",
+  "ai_response": "Available products: 123, 456, 789"
+}
+```
+
+### 4. Get Warranty Policy
+Request:
+```http
+POST /chat
+Content-Type: application/json
+{
+  "session_id": "a1b2c3d4-e5f6-7890-abcd-1234567890ef",
+  "user_input": "What is the warranty policy?"
+}
+```
+Response:
+```json
+{
+  "session_id": "a1b2c3d4-e5f6-7890-abcd-1234567890ef",
+  "ai_response": "All products come with a one-year warranty covering manufacturing defects."
+}
+```
+
+### 5. Memory
+#### Step 1: Ask for your name
+Request:
+```http
+POST /chat
+Content-Type: application/json
+{
+  "session_id": "a1b2c3d4-e5f6-7890-abcd-1234567890ef",
+  "user_input": "Do you know my name?"
+}
+```
+Response:
+```json
+{
+  "session_id": "a1b2c3d4-e5f6-7890-abcd-1234567890ef",
+  "ai_response": "I don't know your name yet. Could you please tell me?"
+}
+```
+
+#### Step 2: Tell your name
+Request:
+```http
+POST /chat
+Content-Type: application/json
+{
+  "session_id": "a1b2c3d4-e5f6-7890-abcd-1234567890ef",
+  "user_input": "My name is Ivan."
+}
+```
+Response:
+```json
+{
+  "session_id": "a1b2c3d4-e5f6-7890-abcd-1234567890ef",
+  "ai_response": "Nice to meet you, Ivan!"
+}
+```
+
+#### Step 3: Ask again
+Request:
+```http
+POST /chat
+Content-Type: application/json
+{
+  "session_id": "a1b2c3d4-e5f6-7890-abcd-1234567890ef",
+  "user_input": "Do you know my name now?"
+}
+```
+Response:
+```json
+{
+  "session_id": "a1b2c3d4-e5f6-7890-abcd-1234567890ef",
+  "ai_response": "Yes, your name is Ivan."
 }
 ```
